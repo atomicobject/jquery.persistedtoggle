@@ -6,15 +6,15 @@ Toggle the visibility of elements in a page using keyboard shortcuts, persisting
 
 ### Set elements to toggle on 'ctrl+a', default state hidden
 
-    $(".admin_controls").jtoggle('ctrl+a', 'hidden');
+    $(".admin_controls").persistedtoggle('ctrl+a', 'hidden');
 
 ## Set elements to toggle on 't', default state shown
 
-    $(".search_results).jtoggle('t', 'shown');
+    $(".search_results).persistedtoggle('t', 'shown');
 
 ## Using the onShow and onHide callbacks
 
-    $(".form_error, .field_error").jtoggle('ctrl+e', 'hidden',
+    $(".form_error, .field_error").persistedtoggle('ctrl+e', 'hidden',
       function() {
         $('.field_error').next("input").addClass("error");
       },
