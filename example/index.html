@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <meta charset='utf-8'> 
+    <title>Persisted Toggle example</title>
+    <style type="text/css">
+      body {
+        font-family: "Helvetica Nue","Helvetica",sans-serif;
+        font-size: 120%;
+      }
+      .note {
+        font-size: 80%;
+        color: #666;
+        width: 500px;
+      }
+      form {
+        border: solid 1px #ccc;
+        padding: 20px;
+        width: 300px;
+      }
+      h3 {
+        margin: 0 0 20px 0;
+      }
+      .field {
+        margin-bottom: 10px;
+      }
+      .field input {
+        width: 200px;
+        border: solid 2px #888;
+        font-size: 20px;
+        line-height: 1.5
+      }
+      .error input {
+        border: solid 2px red;
+        background-color: #ffdddd;
+      }
+      label {
+        display: block;
+      }
+      .form_error_message, .field_error_message {
+        color: red;
+      }
+      .form_error_message {
+        margin: 10px -20px;
+        padding: 10px;
+        border-top: solid 2px red;
+        border-bottom: solid 2px red;
+        background-color: #ffdddd;
+      }
+      .field_error_message {
+        font-size: 80%;
+      }
+    </style>
+    <script src="./jquery.js" type="text/javascript"></script>
+    <script src="./jquery.cookie.js" type="text/javascript"></script>
+    <script src="./jquery.jkey.js" type="text/javascript"></script>
+    <script src="../jquery.persistedtoggle.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $(".field_error_message, .form_error_message").persistedtoggle("ctrl+e", {
+          onShow: function(elements) {
+            elements.closest(".field").addClass("error");
+          },
+          onHide: function(elements) {
+            elements.closest(".field").removeClass("error");
+          }
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <h1>Show/hide form errors</h1>
+    <p>Hit 'ctrl+e' to show &amp; hide form errors below.</p>
+    <form>
+      <h3>Log In</h3>
+      <div class="form_error_message">You could not be logged in.</div>
+      <div class="field">
+        <label for="username">Username</label>
+        <div class="field_error_message">Invalid username</div>
+        <input type="text" name="username" id="username" />
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" />
+      </div>
+      <div class="actions">
+        <input type="submit" value="Log In" />
+      </div>
+    </form>
+    <p class="note">NOTE: Persistence will not work unless this is running through an HTTP server, but the toggle will still function on a page-by-page basis.</p>
+
+  </body>
+</html>

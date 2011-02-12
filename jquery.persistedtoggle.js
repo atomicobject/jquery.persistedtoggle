@@ -1,37 +1,52 @@
 (function($) {
 
-  jQuery.fn.persistedtoggle = function(keyCombo, initialState, onShow, onHide) {
+  var canSetCookies = false;
+  $.cookie('test', 'true');
+  if ($.cookie('test'))
+    canSetCookies = true;
 
+  jQuery.fn.persistedtoggle = function(keyCombo, options) {
+
+    if (! keyCombo) {
+      $.error("You must specify a key combination to bind the toggle to");
+    }
+
+    var settings = {
+      'onShow'       : null,
+      'onHide'       : null,
+      'initialState' : "hidden"
+    };
+    if (options) {
+      $.extend(settings, options);
+    }
+      
     var elements = this;
     var showIt = function() {
       $.cookie(keyCombo, "shown");
-      if (onShow)
-        onShow();
+      if (settings['onShow'])
+        settings['onShow'](elements);
       elements.show();
     }
     var hideIt = function() {
       $.cookie(keyCombo, "hidden");
-      if (onHide)
-        onHide();
+      if (settings['onHide'])
+        settings['onHide'](elements);
       elements.hide();
     }
     var toggleIt = function() {
-      if ($.cookie(keyCombo) == "shown")
+      if ((!canSetCookies && elements.is(':visible')) || $.cookie(keyCombo) == "shown")
         hideIt();
       else
         showIt();
     }
     var bootstrap = function() {
-      if (! initialState)
-        initialState = "hidden";
-
-      if ($.cookie(keyCombo) == "shown" || (!$.cookie(keyCombo) && initialState == "shown") )
+      $(document.documentElement).jkey(keyCombo, toggleIt);
+      if ($.cookie(keyCombo) == "shown" || (!$.cookie(keyCombo) && settings['initialState'] == "shown") )
         showIt();
       else
         hideIt();
     }
 
-    $(document.documentElement).jkey(keyCombo, toggleIt);
     bootstrap();
 
     // to maintain chainability
